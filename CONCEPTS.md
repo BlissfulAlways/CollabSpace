@@ -6,6 +6,6 @@
 - How do Backend and Frontend talk? : Running Servers
 
 ### Java Basics :  
--Java follows a rule : Everything in Java is an object and every object is built from a class 
+- Java follows a rule : Everything in Java is an object and every object is built from a class 
 
 
