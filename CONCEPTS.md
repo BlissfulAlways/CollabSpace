@@ -74,7 +74,7 @@ Spring Boot works on Inversion of Control : inverting who is in control of creat
 Spring Boot works on Dependency Injection : Spring injects the dependency you need without you constructing it yourself.  
 Spring Boot is an opinionated framework built on top of Spring, opinionated part means it ships with sensible defaults so you do not configure everything from scratch.  It is used for Web Applications  
 
-###Create a Spring Boot Project :  
+### Create a Spring Boot Project :  
 Option A: Spring Initializr : A website at start.spring.io  
 Option B: Create everything manually : folder structure and dependency file  
 
@@ -83,10 +83,11 @@ When you write Java code you will use things you did not write. Spring Boot itse
 These are called dependencies. Other people wrote them, packaged them, and published them to a central internet registry called Maven Central.  
 pom.xml is the file where you list everything your project needs. When you run your project, a tool called Maven reads this file, goes to Maven Central, downloads exactly those libraries at exactly those versions, and makes them available to your code.  
 POM stands for Project Object Model. The XML is just the format Maven chose for this file.  
-<dependency>  
-&nbsp;&nbsp;&nbsp;&nbsp;<groupId>org.springframework.boot</groupId>  
-&nbsp;&nbsp;&nbsp;&nbsp;<artifactId>spring-boot-starter-web</artifactId>  
-</dependency>  
+< dependency >  
+&nbsp;&nbsp;&nbsp;&nbsp;< groupId >org.springframework.boot< /groupId >  
+&nbsp;&nbsp;&nbsp;&nbsp;< artifactId >spring-boot-starter-web< /artifactId >  
+< /dependency >  
 - groupId is the organization that wrote it. Like a company name.  
 - artifactId is the specific library name within that organization.  
-- version is which release you want. When you use Spring Boot parent, the version is managed for you so you do not have to specify it on every dependency.  
+- version is which release you want. When you use Spring Boot parent, the version is managed for you so you do not have to specify it on every dependency.
+
