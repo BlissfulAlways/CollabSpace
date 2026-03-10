@@ -1,5 +1,6 @@
 # CollabSpace  
   
+## TEAM 01 :  
 When a company starts a new software project, the first thing they do is ask these 3 questions :  
 - Question 1: Where does the code live? : A folder structure that every team member understands. A predictable layout so when you open any part of the project you immediately know where you are.  
 - Question 2: What does this project need to run? : Your code will depend on other people's code. Someone needs to write down exactly what those are and what versions - Dependency File. In Java it is usually pom.xml (Maven) and in JS it is package.json.  
@@ -85,9 +86,95 @@ pom.xml is the file where you list everything your project needs. When you run y
 POM stands for Project Object Model. The XML is just the format Maven chose for this file.  
 < dependency >  
 &nbsp;&nbsp;&nbsp;&nbsp;< groupId >org.springframework.boot< /groupId >  
-&nbsp;&nbsp;&nbsp;&nbsp;< artifactId >spring-boot-starter-web< /artifactId >  
+&nbsp;&nbsp;&nbsp;&nbsp;< artifactId >spring-boot-starter-web< /artifactId >    
 < /dependency >  
 - groupId is the organization that wrote it. Like a company name.  
 - artifactId is the specific library name within that organization.  
 - version is which release you want. When you use Spring Boot parent, the version is managed for you so you do not have to specify it on every dependency.
+
+## TEAM 02 :   
+Get a rich text editor rendering in the browser. This means we now move to the frontend folder and start React.  
+
+When a webpage is loaded from one origin, the JavaScript running on that page is not automatically allowed to make requests to a different origin. The browser blocks it before it even leaves the machine.  
+An origin is the combination of three things. The protocol, the domain, and the port.  
+http://localhost:5173 is one origin.  
+http://localhost:8080 is a different origin.  
+Same machine. Same domain. But different port. That makes them different origins.  
+
+Browser needs permission from the server at port 8080 before I allow this.  
+This permission system is called CORS. Cross Origin Resource Sharing.  
+The way it works is this. Before sending your actual request, the browser sends a small preliminary request to port 8080 asking: do you allow requests from port 5173? If the server at port 8080 says yes by including specific headers in its response, the browser allows the request through. If the server says nothing or says no, the browser blocks the request entirely and your frontend gets nothing back.  
+We will configure CORS in our Spring Boot backend to explicitly allow requests from port 5173. That configuration goes in our config/ folder which is exactly why that folder exists.  
+
+### Rich Text Editor :  
+A textarea is a plain box that holds a string of text. When you type, characters get added to that string. When you delete, characters get removed.  
+A textarea has no concept of where a character is beyond its position number. When someone inserts a character at position 3, every character after it shifts by one position -  positions change when anyone types anywhere. (This is a problem)  
+
+Yjs, our conflict resolution library, works with a document that has structure. A document made of nodes. Each node has a unique identity that never changes regardless of what anyone else types. This is what makes CRDT conflict resolution possible.  
+So we need an editor that thinks in structured nodes, not raw strings.  
+
+### Tiptap :  
+Tiptap is a rich text editor library for React. It is built on something called ProseMirror which is a toolkit for building structured document editors. Tiptap makes ProseMirror usable without understanding all of ProseMirror's complexity. Tiptap has a first class extension for Yjs.  
+
+### React :  
+React is a JavaScript library for building user interfaces. In plain HTML you write what the page looks like. In React you write components.  
+A component is a JavaScript function that returns what a piece of the page should look like based on data. When the data changes, React automatically updates only the part of the page that changed. You do not manually update the DOM. React handles it.  
+Our entire frontend will be built as React components. The editor will be a component. The document list will be a component. The presence indicators will be components.  
+
+### Setting Up React :  
+Professional frontend has four qualities :  
+- Fast to load — only what the user needs right now gets loaded. Not everything at once.
+- Lightweight — no unnecessary libraries. Every dependency has a reason.
+- Maintainable — someone who did not write the code can read it and understand it immediately.  Accessible — works for people using keyboards, screen readers, slow connections.
+
+1. Styling — how your app looks :
+   - CSS Modules — you write a separate file for each component that contains the visual instructions for that component.
+   - Tailwind CSS — instead of writing a separate file, you write the visual instructions directly on the element itself using short class names.
+Tailwind produces a smaller final CSS file because it only includes the styles you actually used. CSS Modules includes everything you wrote whether it gets used or not. For a fast loading frontend, smaller CSS matters.
+
+2. State management — how your app remembers things :
+Your frontend needs to remember things while it is running. Which user is logged in. Which document is open. Who else is currently online.
+These pieces of information are called state.
+- Local State : only one component needs it.  React has this built in with something called useState. You do not need an external library for local state.
+- Global State : multiple components need the same information.
+  1. Context (React built-in) : every component  re-renders when anything in global state changes, even if the change is not relevant to that specific component.
+  2. Zustand :  Components subscribe only to the specific pieces of state they need. When user data changes, only components that care about user data re-render. Everything else stays untouched. This directly affects performance.
+
+3. Routing — how your app navigates between pages :
+Your frontend has multiple pages. When a user clicks from the dashboard to open a document, the URL changes. The page content changes. But the browser does not reload. React handles the transition entirely in JavaScript.  
+The library that manages this URL to component mapping is a router.
+- React Router : Standard for years  
+- TanStack Router : newer and technically better in specific ways but the community around it is smaller.
+
+4. TanStack Query alongside Zustand. Zustand handles UI state. TanStack Query handles all data fetching from our backend.
+Without it, when your React component needs to load a list of documents from your backend, you would write this logic yourself every single time:  
+  
+Send the request to the backend  
+While waiting, show a loading indicator  
+When data arrives, store it somewhere and display it  
+If the request fails, show an error message  
+If the user navigates away and comes back, decide whether to fetch fresh data or use what you already fetched  
+If two components need the same data, decide whether to fetch it twice or share it  
+  
+That is a significant amount of code you write for every single piece of data your frontend needs from the backend.  
+TanStack Query handles all of that automatically. You tell it what to fetch and it manages loading state, error state, caching, and refetching for you.  
+The cache means if a user opens the document list, navigates to an editor, then comes back to the document list, the list appears instantly from cache instead of fetching again.  
+TanStack Query is only for REST data and not Real time data  (real time WebSocket state managed through Zustand and REST server state managed through TanStack Query)  
+
+### Vite :  
+Vite is the build tool.  React code is JavaScript that browsers cannot run directly as you write it. React uses a special syntax called JSX that browsers do not understand. Vite takes your code, transforms it into plain JavaScript that any browser understands, and serves it during development with a fast live reload server.  
+When you save a file, Vite detects the change and updates the browser instantly without a full page reload. This is called Hot Module Replacement.  
+
+### Setting Up React Project :  
+Project = Folders structure + dependency files  
+React Project = React specific folder structure and react specific dependencies  
+Command : 'npm create vite@latest . -- --template react'  
+- npm : Node Package Manager - maven equivalent, uses package.json
+- vite@version = vite@latest : latest version of vite
+- . : current folder/directory
+- --template react : use react template for react project crestion
+
+Files present :  
+- README.md -Auto generated documentation file
+- index.html — this is the single HTML file your entire React application lives inside.   
 
