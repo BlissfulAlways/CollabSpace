@@ -146,7 +146,7 @@ The library that manages this URL to component mapping is a router.
 - React Router : Standard for years  
 - TanStack Router : newer and technically better in specific ways but the community around it is smaller.
 
-4. TanStack Query alongside Zustand. Zustand handles UI state. TanStack Query handles all data fetching from our backend.
+4. TanStack Query alongside Zustand. Zustand handles UI state. TanStack Query handles all data fetching from our backend.  
 Without it, when your React component needs to load a list of documents from your backend, you would write this logic yourself every single time:  
   
 Send the request to the backend  
