@@ -8,6 +8,7 @@ When a company starts a new software project, the first thing they do is ask the
 ### Java Basics :  
 - Java is built on one rule: everything is an object, and every object is built from a class (Java is object-oriented language).
 - Class name follows PascalCase.  
+- In Java, you cannot write code that floats freely. Every single instruction must live inside a method. Every method must live inside a class. There is no exception to this.  
 public class HelloWorld{  
 &nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args){  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Hello world");  
@@ -28,3 +29,12 @@ Project/
 - protected : Visible to Neighbor.java because it is in the same folder, and to Child.java because it inherits from the Parent, even though it is in a different folder.
 - default (no keyword) : Visible only to Neighbor.java. Since Child.java and Stranger.java are in a different folder (package_b), they cannot see it at all.
 - private : Visible only within Parent.java. No other file in any folder can access this. It is restricted to the specific file where it is written.  
+  
+public static void main(String[] args)  
+- This is the one line Java looks for when you say "run this."  
+- static — normally to use something inside a class, you first have to build an object from that class. But Java needs to run main before any objects exist. static means this method belongs to the class itself, not to any object built from it. Java can call it directly without building anything first.  
+- void — every method in Java must declare what it gives back when it finishes. void means it gives back nothing. It just runs and ends.  
+- String[] args — when you run a Java program from the terminal you can pass extra words after it. String means text. [] means it is a list of them. args is just the name given to that list.  
+- System — a class that represents the environment your program is running in. The operating system, the terminal, the hardware.  
+- out — a specific channel inside System that points to your terminal output. The screen.  
+- println — a method that takes whatever you give it, converts it to text, writes it to the screen, and moves to the next line. print does the same without moving to the next line. println means print line.  
