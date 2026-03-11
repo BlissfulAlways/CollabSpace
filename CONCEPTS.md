@@ -213,7 +213,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')).render(  
 &nbsp;&nbsp;&nbsp;&nbsp;< StrictMode >  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< App / >  
 &nbsp;&nbsp;&nbsp;&nbsp;< /StrictMode >,  
