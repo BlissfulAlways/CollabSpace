@@ -217,13 +217,25 @@ createRoot(document.getElementById('root')).render(
 &nbsp;&nbsp;&nbsp;&nbsp;< StrictMode >  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< App / >  
 &nbsp;&nbsp;&nbsp;&nbsp;< /StrictMode >,  
-< StrictMode >  
-- import is how JavaScript brings in code from another file or library.
+)  
+- import { StrictMode } from 'react' : import is how JavaScript brings in code from another file or library.
 - { StrictMode } — the curly braces mean we are taking one specific thing called StrictMode out of the React library. Not everything React has. Just this one thing.
 - from 'react' — this tells JavaScript where to find it. react is not a file you wrote. It is a library that lives inside the node_modules folder that npm downloaded when we created the project.
 - StrictMode is a React tool that activates extra checks during development only. It intentionally runs certain parts of your code twice to help you find bugs early. It has zero effect in production. It does not slow your app down for real users. It only runs in development to catch mistakes.
-- Taking one specific thing called createRoot from a library called react-dom/client.
+- import { createRoot } from 'react-dom/client' : Taking one specific thing called createRoot from a library called react-dom/client.
 - createRoot is the function that connects React to your HTML page. Specifically it connects React to that empty div with id="root"
-- 
-    
+- import './index.css' : This imports a CSS file. No curly braces because we are not taking a specific named thing. We are just telling the build tool — include this CSS file in the project. Vite sees this import and includes those styles in the final output
+- import App from './App.jsx' : This imports your main React component from a file called App.jsx. When a file exports one main thing as its default, you import it without curly braces and you can name it whatever you want. By convention we name it App.
+./ means look in the current folder. Not in node_modules. Not somewhere else. Right here.
+- document.getElementById('root') — document is the browser's representation of your HTML page. getElementById('root') finds the element with id="root". This finds that empty div we saw in index.html.  
+- createRoot(...) — takes that div and tells React: this div is yours. Manage everything inside it.  
+- .render(...) — tells React what to put inside that div. Everything inside the render call becomes your visible application.  
+< StrictMode >< App / >< /StrictMode > — this looks like HTML but it is not. This is JSX. It is a special syntax that React uses that lets you write what looks like HTML tags inside JavaScript. The browser cannot read this directly — Vite transforms it into plain JavaScript before the browser ever sees it.  
+- < App / > means render the App component. Whatever App returns becomes visible on the page.  
+- < StrictMode > wraps App to activate those extra development checks   
+
+#### JavaScript : Functions can exist freely. createRoot is just a function. Not inside a class. Just a function.  
+
+
+now App.jsx - App component  
 
