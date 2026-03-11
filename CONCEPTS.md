@@ -62,8 +62,9 @@ collabspace/
 └── client/  
 server/client is network vocabulary. It describes the relationship between the two programs — one serves, one consumes. Accurate but generic.  
 We pick backend/frontend  
-
-
+  
+### Spring :  
+  
 ### Spring Boot :  
 When a browser wants to load a user's documents, it sends a message to your Java program. Your Java program receives that message, figures out what is being asked, does the work, and sends a message back. Then it goes back to waiting.  
 This type of program is called a server. A server as in a program whose job is to serve responses to requests.  
@@ -176,5 +177,53 @@ Command : 'npm create vite@latest . -- --template react'
 
 Files present :  
 - README.md -Auto generated documentation file
-- index.html — this is the single HTML file your entire React application lives inside.   
+- index.html — this is the single HTML file your entire React application lives inside.
+< !doctype html >  
+< html lang="en" >  
+&nbsp;&nbsp;&nbsp;&nbsp;< head >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< meta charset="UTF-8" / >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< link rel="icon" type="image/svg+xml" href="/vite.svg" / >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< meta name="viewport" content="width=device-width, initial-scale=1.0" / >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< title >frontend< /title >  
+&nbsp;&nbsp;&nbsp;&nbsp;< /head >  
+&nbsp;&nbsp;&nbsp;&nbsp;< body >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< div id="root" >< /div >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< script type="module" src="/src/main.jsx" >< /script >  
+&nbsp;&nbsp;&nbsp;&nbsp;< /body >  
+< /html >
+- < !doctype html > — this tells the browser this is an HTML document. Every HTML file starts with this. It is not a tag. It is a declaration to the browser about what kind of file it is reading.
+- < html lang="en" > — the root element of the entire page. Everything visible on the page lives inside this tag. lang="en" tells browsers and screen readers this page is in English.
+- < meta charset="UTF-8" > — this tells the browser which character encoding to use when reading this file. UTF-8 is the standard that supports every character in every language. Without this declaration the browser guesses and sometimes guesses wrong, producing garbled text.
+- < meta name="viewport" content="width=device-width, initial-scale=1.0" > — this controls how the page scales on mobile devices. Without this line your page would render at desktop width on a phone and the user would have to zoom in to read anything. This single line makes your app mobile friendly by telling the browser to match the screen width of the device.
+- < title >frontend< /title > — this is the text that appears in the browser tab.
+- < div id="root" >< /div > — this is the most important line in this file. This is an empty div. A div is just a container with no visual appearance of its own. It has one attribute — id="root". This empty div is where React will inject your entire application. When React starts running it finds this div by its id, and replaces it with all your components. The entire CollabSpace interface — the editor, the dashboard, the login page — will live inside this one empty div at runtime.
+- < script type="module" src="/src/main.jsx" >< /script > — this tells the browser to load and execute the JavaScript file at /src/main.jsx. This is the trigger. When the browser reads this line it goes and fetches that file and runs it. That file starts React. React finds the div with id root. React injects your application into it. The page comes alive. type="module" means this JavaScript file uses modern ES module syntax — the import and export keywords. Without this attribute the browser would not understand those keywords.
+
+##### One HTML file. One empty div. One script tag. That is the entire foundation of your React frontend.  
+
+Now main.jsx :  
+import { StrictMode } from 'react'  
+import { createRoot } from 'react-dom/client'  
+import './index.css'  
+import App from './App.jsx'  
+  
+createRoot(document.getElementById('root')).render(  
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+&nbsp;&nbsp;&nbsp;&nbsp;< StrictMode >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< App / >  
+&nbsp;&nbsp;&nbsp;&nbsp;< /StrictMode >,  
+< StrictMode >  
+- import is how JavaScript brings in code from another file or library.
+- { StrictMode } — the curly braces mean we are taking one specific thing called StrictMode out of the React library. Not everything React has. Just this one thing.
+- from 'react' — this tells JavaScript where to find it. react is not a file you wrote. It is a library that lives inside the node_modules folder that npm downloaded when we created the project.
+- StrictMode is a React tool that activates extra checks during development only. It intentionally runs certain parts of your code twice to help you find bugs early. It has zero effect in production. It does not slow your app down for real users. It only runs in development to catch mistakes.
+- Taking one specific thing called createRoot from a library called react-dom/client.
+- createRoot is the function that connects React to your HTML page. Specifically it connects React to that empty div with id="root"
+- 
+    
 
