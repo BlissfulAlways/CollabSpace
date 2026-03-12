@@ -237,5 +237,87 @@ createRoot(document.getElementById('root')).render(
 #### JavaScript : Functions can exist freely. createRoot is just a function. Not inside a class. Just a function.  
 
 
-now App.jsx - App component  
+now App.jsx - App component :  
+It contains Vite's default demo component. It exists just to prove React is working. 
+It contains the three most fundamental React concepts you will use in every single component you ever write.  
+1. Concept one — a component is just a function :
+   - function App() { : A React component is a JavaScript function. It starts with a capital letter by convention — React uses this to distinguish your components from regular HTML tags. Lowercase tags like <div> are HTML. Capitalised tags like <App /> are your components.
+   - The function takes no parameters here but components can receive data through parameters called props.  
+2. Concept two — state :  
+   - const [ count, setCount ] = useState(0) : useState(0) — this is a React function that creates a piece of state. State is data that belongs to this component and can change over time. The 0 is the initial value. Count starts at zero.  
+   - useState returns two things. The current value of the state. And a function to change that value.  
+   - const [count, setCount] — this is destructuring. Instead of writing:  
+&nbsp;&nbsp;&nbsp;&nbsp;const result = useState(0)  
+&nbsp;&nbsp;&nbsp;&nbsp;const count = result[0]  
+&nbsp;&nbsp;&nbsp;&nbsp;const setCount = result[1]  
+   - JavaScript lets you write it in one line by putting variable names inside square brackets matching the positions. count gets the first thing useState returned. setCount gets the second thing  
+   - count is the current value. You read it to display it. setCount is the function you call when you want to change it.  
+   - The critical rule in React — you never change state directly. You never write count = count + 1. You always call the setter function setCount(count + 1). This is because React needs to know when state changes so it can update the display. If you change state directly React does not know and the display stays wrong.  
+3. Concept three — JSX and the return statement :  
+   - return (  
+&nbsp;&nbsp;&nbsp;&nbsp;<>  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  
+&nbsp;&nbsp;&nbsp;&nbsp;< / >  
+)  
+   - Every React component returns what it should display. That return value is written in JSX — the HTML-like syntax inside JavaScript.
+   - The empty <> and </> are called a Fragment. React requires every component to return one single root element. But sometimes you want to return multiple elements without wrapping them in a meaningless div. A Fragment is an invisible wrapper. It satisfies React's requirement without adding an extra div to your HTML.  
+   - <button onClick={() => setCount((count) => count + 1)}>  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count is {count}
+&nbsp;&nbsp;&nbsp;&nbsp;</ button>
+   - Curly braces inside JSX mean — stop treating this as text and evaluate this as JavaScript. {count} means display the current value of the count variable. When count changes, React automatically updates this text.
+   - onClick={() => setCount((count) => count + 1)} means when this button is clicked, call this function which calls setCount to increment count by one. React sees the state changed and re-renders the component with the new count value.
+   - export default App : This makes the App function available to other files that want to import it. Remember in main.jsx we wrote import App from './App.jsx'. This export default is what makes that import work. Without it, nothing outside this file can use App.
+   - npm run dev :  In Codespaces, go to the Ports tab at the bottom of VS Code. You should see port 5173 listed there. Click the globe icon next to it to open it in the browser. Your React app is running and visible in the browser. That is Team 02's first checkpoint done.
+
+#### package.json :  
+Before we write a single line of our own code, we need to install the libraries we decided on. Right now your package.json only knows about React and Vite. It knows nothing about Tailwind, Zustand, TanStack Query, React Router, Tiptap, or Yjs. 
+
+npm install @tiptap/react@2 @tiptap/pm@2 @tiptap/starter-kit@2 @tiptap/extension-collaboration@2 @tiptap/extension-collaboration-cursor@2 yjs y-websocket zustand @tanstack/react-query @tanstack/react-query-devtools react-router-dom  
+
+  - npm install — this tells npm to download libraries from the JavaScript registry and add them to your project. The equivalent of what Maven does when it reads your pom.xml and downloads dependencies. Except here you are naming the libraries directly in the command instead of editing a file first. npm will automatically add them to your package.json after downloading.  
+  - Everything after npm install is just the list of libraries you want. Each one separated by a space.  
+  - @tiptap/react — the core Tiptap editor library built for React. This is the editor itself. Without this there is no rich text editing capability. 
+  - @tiptap/pm — ProseMirror is the underlying document model that Tiptap is built on. Tiptap needs this to function. You will never use this directly but Tiptap depends on it internally.  
+  - @tiptap/starter-kit — a bundle of the most common editor features. Bold text, italic text, headings, bullet lists, paragraph formatting. Instead of installing each feature separately this one package gives you all the basics.  
+  - @tiptap/extension-collaboration — this is the specific Tiptap extension that connects the editor to Yjs. Without this, Tiptap and Yjs do not know about each other. This extension makes Tiptap use Yjs as its document store instead of its own internal store.  
+  - @tiptap/extension-collaboration-cursor — this adds the cursor presence feature. When another user is in the document, their cursor appears with their name and a color. This extension handles rendering those cursors inside the editor.  
+  - yjs — the core CRDT library. This is the mathematical foundation of our conflict resolution. It manages the shared document state and guarantees convergence.  
+  - y-websocket — Yjs by itself manages document state but does not know how to send changes over a network. This library gives Yjs a WebSocket provider. It connects the Yjs document to a WebSocket connection so changes travel between browsers automatically.  
+  - zustand — our global state management library. Manages things like which user is logged in, connection status, and other UI state that multiple components need to share.  
+  - @tanstack/react-query — manages all data fetching from our backend REST API. Handles loading states, error states, and caching automatically.  
+  - @tanstack/react-query-devtools — a development tool that shows you what TanStack Query is doing internally. Which requests are in flight, what is cached, when data was last fetched. Only used during development, has zero impact on production.  
+  - react-router-dom — handles navigation between pages. Login page, dashboard page, editor page. When the URL changes React Router decides which component to show.  
+  - some libraries start with @tiptap/ and some with @tanstack/. The @ symbol followed by a name before the slash is called a scope. It is a way of grouping related packages under one organization name on npm.  
+  - @tiptap/react and @tiptap/pm are both published by the Tiptap organization. @tanstack/react-query and @tanstack/react-query-devtools are both published by the TanStack organization.  
+  - This prevents naming collisions. If two different organizations both made a library called react-query, they would conflict. Scopes solve this by namespacing them.  
+  
+Install Tailwind CSS : npm install -D tailwindcss @tailwindcss/vite  
+- The -D flag means install as a development dependency. Tailwind is a build time tool. It reads your JSX files, finds every Tailwind class you used, and generates only those styles into a CSS file. After that build step Tailwind itself is no longer needed. The generated CSS file is what ships to users. So Tailwind belongs in development dependencies, not production dependencies.
+- This distinction appears in your package.json as two separate sections. dependencies are needed at runtime. devDependencies are only needed during development and building.
+
+Inside package.json :  
+- "type": "module" — this tells Node.js that every JavaScript file in this project uses modern ES module syntax. Meaning import and export keywords. Without this line Node.js would expect the older require() syntax. This one line is why you can write import React from 'react' instead of const React = require('react').
+- "scripts" — these are shortcuts for terminal commands. When you type npm run dev, npm looks up dev in this scripts section and runs vite. You are not typing vite directly because vite is installed inside node_modules and your terminal does not know where that is. npm knows and handles it for you.
+- dev — starts the development server with hot reload
+- build — compiles everything into plain JavaScript for production
+- lint — checks your code for errors and bad practices
+- preview — serves the production build locally so you can test it before deploying
+- The ^ symbol before every version number — this means accept this version or any newer version that does not have breaking changes. ^5.90.21 means version 5.90.21 or anything newer in the 5.x.x range. It will never automatically upgrade to version 6 because that could have breaking changes. This gives you automatic bug fixes and minor improvements without risking your code breaking.  
+  
+Tailwind needs two small configuration steps before it works :  
+Step one — tell Vite to use Tailwind - vite.config.js  
+javascript  
+import { defineConfig } from 'vite'  
+import react from '@vitejs/plugin-react'  
+  
+// https://vite.dev/config/  
+export default defineConfig({    
+&nbsp;&nbsp;&nbsp;&nbsp;plugins: [react()],  
+})  
+
+- Right now it has one plugin — the React plugin that enables JSX transformation.
+- We need to add the Tailwind plugin so Vite processes Tailwind classes during the build.  
+
+
+
 
