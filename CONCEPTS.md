@@ -1,4 +1,4 @@
-# CollabSpace  
+ # CollabSpace  
   
 ## TEAM 01 :  
 When a company starts a new software project, the first thing they do is ask these 3 questions :  
@@ -138,7 +138,62 @@ You can also select by class. A class is a name you give to an element:
   color: blue;
 }  
 The dot before title means select elements that have this class. This lets you style specific elements instead of all elements of a type.  
+
+#### What Tailwind CSS is at the lowest level :  
+Writing a separate CSS file for every component gets tedious. You write a class name in HTML, then switch to a CSS file, write the class, write the rules, switch back.  
+Tailwind takes a different approach. Instead of writing custom class names and then defining them in CSS, Tailwind gives you thousands of pre-built utility classes. Each class does exactly one CSS thing.  
+You apply these directly to elements in your HTML or JSX: < h1 class="text-blue-500 text-2xl p-4 rounded" > Hello < /h1 >  
+Instead of writing CSS, you compose visual instructions directly on the element using class names. Each class name translates to exactly one CSS property and value. Tailwind then scans your files, finds every class you used, and generates a CSS file containing only those classes. Unused classes are not included. This is why the final CSS file is small.  
   
+#### What JavaScript looks like at the lowest level :  
+JavaScript runs in the browser and can change what is on the page, send data to servers, and respond to user actions.  
+- A variable stores a value:  
+const name = "Alice"  
+let count = 0  
+const means this variable cannot be reassigned. let means it can.  
+- A function is a reusable block of code:  
+function greet(name) {  
+  return "Hello " + name  
+}  
+function is the keyword. greet is the name. name is a parameter — data passed in when calling the function. return sends a value back to whoever called the function.  
+- An array is a list of values:
+const colors = ["red", "green", "blue"] : Square brackets. Items separated by commas. Access by position starting at zero: colors[0] is "red".  
+- An object holds named values:  
+const user = {  
+  name: "Alice",  
+  age: 25  
+}   
+Curly braces. Each entry has a name, a colon, and a value. Access with dot notation: user.name is "Alice".
+
+#### What JSX is :  
+React introduced JSX — a way to write HTML-like syntax inside JavaScript files. The browser cannot read JSX directly. Vite transforms it into plain JavaScript before the browser sees it.  
+- Without JSX you would write: React.createElement('h1', null, 'Hello')  
+- With JSX you write: < h1 >Hello< /h1 >  
+JSX is just a more readable way to write the same thing. Vite transforms JSX into the longer form automatically.
+
+In JSX, to use a JavaScript value inside your HTML-like code, you use curly braces:  
+const name = "Alice"  
+return < h1 >Hello {name}< /h1 >    
+The curly braces tell JSX: stop treating this as text and evaluate this as JavaScript. The result renders as Hello Alice.  
+
+#### What a React component actually is at the code level :  
+A component is a JavaScript function that returns JSX.  
+function Button() {  
+  return <button>Click me</button>  
+}  
+That is a complete React component. A function. Returns JSX. The function name starts with a capital letter so React knows it is a component and not a regular HTML tag.  
+You use it in other components by writing it as a JSX tag:  
+function App() {  
+&nbsp;&nbsp;&nbsp;&nbsp;return (  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< div >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< Button / >  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< /div >  
+&nbsp;&nbsp;&nbsp;&nbsp;)  
+} <Button /> calls the Button function and puts whatever it returns in that spot.  
+
+#### What useState is at the lowest level :  
+When data inside a component changes, React needs to know so it can update what is displayed. Regular JavaScript variables do not trigger updates. React's state system does. => import { useState } from 'react'  
+
 ### Get a rich text editor rendering in the browser. This means we now move to the frontend folder and start React.  
 
 When a webpage is loaded from one origin, the JavaScript running on that page is not automatically allowed to make requests to a different origin. The browser blocks it before it even leaves the machine.  
@@ -166,6 +221,14 @@ Tiptap is a rich text editor library for React. It is built on something called 
 React is a JavaScript library for building user interfaces. In plain HTML you write what the page looks like. In React you write components.  
 A component is a JavaScript function that returns what a piece of the page should look like based on data. When the data changes, React automatically updates only the part of the page that changed. You do not manually update the DOM. React handles it.  
 Our entire frontend will be built as React components. The editor will be a component. The document list will be a component. The presence indicators will be components.  
+
+### Zustand :  
+In React, every component is a function. That function has its own variables. Those variables exist only inside that function. When the function finishes running, those variables are gone until React runs the function again.  
+This means two separate components cannot share a variable directly. Component A has its own variables. Component B has its own variables. They do not know about each other  
+But in our application, multiple components need the same information. For example, when a user logs in, we need to know who that user is in several places. The navigation bar needs to show their name. The dashboard needs to load their documents. The editor needs to send their name with cursor position data.  
+The logged in user information needs to live somewhere that every component can reach. Not inside one specific component. Somewhere central.  One solution React provides is passing data from a parent component down to child components through something called props. A parent component has the data and passes it to children that need it.  
+But this breaks down quickly. Imagine the logged in user data lives in your App component at the top. The navigation bar needs it — fine, pass it down one level. But the editor also needs it. The editor is several levels deep inside other components. You would have to pass the user data through every component in between even if those middle components do not need it themselves. This is called prop drilling and it makes code messy and hard to maintain.  
+Zustand solves this by creating a store. A store is an object that lives outside all components. Any component can read from it directly. Any component can update it directly. No passing through middle components.  
 
 ### Setting Up React :  
 Professional frontend has four qualities :  
