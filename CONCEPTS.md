@@ -94,7 +94,52 @@ POM stands for Project Object Model. The XML is just the format Maven chose for 
 - version is which release you want. When you use Spring Boot parent, the version is managed for you so you do not have to specify it on every dependency.
 
 ## TEAM 02 :   
-Get a rich text editor rendering in the browser. This means we now move to the frontend folder and start React.  
+
+### Frontend Basics :  
+When you open a browser and visit any website, the browser receives three types of files from a server.  
+The first type tells the browser what exists on the page. What elements are there. A heading. A paragraph. A button. An image. This file type is called HTML. HTML stands for HyperText Markup Language. It is not a programming language. It has no logic. It just describes what elements exist.  
+The second type tells the browser what those elements look like. The heading is blue. The button has rounded corners. The text is 16 pixels tall. This file type is called CSS. CSS stands for Cascading Style Sheets. It is also not a programming language. It just describes appearance.  
+The third type tells the browser what those elements do when the user interacts with them. When this button is clicked, send this data to the server. When this input changes, validate the email format. This file type is called JavaScript. JavaScript is a real programming language. It has logic, conditions, loops, functions.  
+Every webpage in existence is built from these three things. HTML for structure. CSS for appearance. JavaScript for behavior.  
+
+
+#### Why does React exist?  
+In the early days of the web, you wrote HTML files directly. One file per page.  
+Then JavaScript got powerful enough that instead of the server sending you a new HTML file every time you clicked something, the JavaScript on the page could change the HTML directly without a page reload. This made websites feel like applications.  
+But managing this got complicated fast. You have data. That data appears in multiple places on the page. When the data changes, every place that shows it needs to update. Writing that manually in plain JavaScript becomes thousands of lines of code that is nearly impossible to maintain.  
+React solves this with one idea. You describe what the page should look like for a given piece of data. React handles updating the page whenever that data changes. You stop thinking about manually updating the page and start thinking only about data and what the page should look like given that data.  
+
+#### What HTML actually looks like :  
+HTML is made of elements. Each element has an opening tag, content, and a closing tag.  
+Some elements have no content and no closing tag: <img src="photo.jpg" / > : The slash before the closing bracket means this element closes itself. It has no content inside it. Elements can have attributes. src="photo.jpg" is an attribute. A name, an equals sign, and a value in quotes. Attributes give extra information about the element.  
+Every HTML page has a required structure:  
+<!doctype html >  
+<html >  
+&nbsp;&nbsp;<head >  
+&nbsp;&nbsp;&nbsp;&nbsp;<title >Page Title</title >  
+&nbsp;&nbsp;</head >  
+&nbsp;&nbsp;<body >  
+&nbsp;&nbsp;&nbsp;&nbsp;<h1 >Visible content goes here</h1 >  
+&nbsp;&nbsp;</body >  
+</html >  
+head contains information about the page that is not visible. Title, which CSS files to load, which JavaScript files to load.  
+body contains everything the user actually sees  
+
+#### What CSS actually looks like :  
+CSS selects elements and applies visual rules to them.  
+h1 {
+  color: blue;
+  font-size: 32px;
+}  
+h1 is the selector. It means apply these rules to every h1 element on the page. The curly braces contain the rules. Each rule is a property name, a colon, a value, and a semicolon.  
+You can also select by class. A class is a name you give to an element:  
+<h1 class="title" >Hello</h1 >  
+.title {
+  color: blue;
+}  
+The dot before title means select elements that have this class. This lets you style specific elements instead of all elements of a type.  
+  
+### Get a rich text editor rendering in the browser. This means we now move to the frontend folder and start React.  
 
 When a webpage is loaded from one origin, the JavaScript running on that page is not automatically allowed to make requests to a different origin. The browser blocks it before it even leaves the machine.  
 An origin is the combination of three things. The protocol, the domain, and the port.  
@@ -306,17 +351,27 @@ Inside package.json :
   
 Tailwind needs two small configuration steps before it works :  
 Step one — tell Vite to use Tailwind - vite.config.js  
+  - This file is a JavaScript file that exports one object. That object contains configuration instructions for Vite.
+  - In JavaScript, export default means this file's main output is what follows. Any file that imports this file gets this object.
+  - defineConfig({}) is just a function call. You are passing one object inside it. That object has one property right now called plugins. The value of plugins is an array — the square brackets [] mean array in JavaScript. Inside that array sits one item — react() which is a function call that returns the React plugin.  
 javascript  
 import { defineConfig } from 'vite'  
 import react from '@vitejs/plugin-react'  
+import tailwindcss from '@tailwindcss/vite'  
   
 // https://vite.dev/config/  
 export default defineConfig({    
-&nbsp;&nbsp;&nbsp;&nbsp;plugins: [react()],  
+&nbsp;&nbsp;&nbsp;&nbsp;plugins: [  
+&nbsp;&nbsp;&nbsp;&nbsp;react()  
+&nbsp;&nbsp;&nbsp;&nbsp;tailwindcss(),  
+],  
 })  
-
-- Right now it has one plugin — the React plugin that enables JSX transformation.
-- We need to add the Tailwind plugin so Vite processes Tailwind classes during the build.  
+  
+- Right now it has one plugin — the React plugin that enables JSX transformation.  
+- We need to add the Tailwind plugin so Vite processes Tailwind classes during the build. (done above)  
+  
+Step two — tell Tailwind to activate in your CSS  
+src/index.css :  
 
 
 
