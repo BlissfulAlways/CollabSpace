@@ -113,15 +113,15 @@ React solves this with one idea. You describe what the page should look like for
 HTML is made of elements. Each element has an opening tag, content, and a closing tag.  
 Some elements have no content and no closing tag: <img src="photo.jpg" / > : The slash before the closing bracket means this element closes itself. It has no content inside it. Elements can have attributes. src="photo.jpg" is an attribute. A name, an equals sign, and a value in quotes. Attributes give extra information about the element.  
 Every HTML page has a required structure:  
-<!doctype html >  
-<html >  
-&nbsp;&nbsp;<head >  
-&nbsp;&nbsp;&nbsp;&nbsp;<title >Page Title</title >  
-&nbsp;&nbsp;</head >  
-&nbsp;&nbsp;<body >  
-&nbsp;&nbsp;&nbsp;&nbsp;<h1 >Visible content goes here</h1 >  
-&nbsp;&nbsp;</body >  
-</html >  
+< !doctype html >     
+< html >  
+&nbsp;&nbsp;&nbsp;&nbsp;< head >    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< title >Page Title< /title >   
+&nbsp;&nbsp;&nbsp;&nbsp;< /head >  
+&nbsp;&nbsp;&nbsp;&nbsp;< body >    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< h1 >Visible content goes here< /h1 >    
+&nbsp;&nbsp;&nbsp;&nbsp;< /body >    
+< /html >    
 head contains information about the page that is not visible. Title, which CSS files to load, which JavaScript files to load.  
 body contains everything the user actually sees  
 
@@ -133,7 +133,7 @@ h1 {
 }  
 h1 is the selector. It means apply these rules to every h1 element on the page. The curly braces contain the rules. Each rule is a property name, a colon, a value, and a semicolon.  
 You can also select by class. A class is a name you give to an element:  
-<h1 class="title" >Hello</h1 >  
+< h1 class="title" > Hello < /h1 >  
 .title {
   color: blue;
 }  
