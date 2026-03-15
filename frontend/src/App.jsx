@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import CollabEditor from './components/Editor/CollabEditor'
 
 const LoginPage = () => <div>"Login Page"</div>
 const RegisterPage = () => <div>"Register Page"</div>
 const DashboardPage = () => <div>"Dashboard Page"</div>
-const EditorPage = () => <div>"Editor Page"</div>
+const EditorPage = () => <div><CollabEditor /></div>
 
 const App = () => {
   
